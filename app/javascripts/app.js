@@ -42,12 +42,15 @@ function mintToken() {
   var meta = FireCoin.deployed();
    console.log(meta)
   var amount = parseInt(document.getElementById("mintamount").value);
-  meta.mintToken(coinbase, amount).then(function() {
+  meta.mintToken(coinbase, amount,{from: coinbase}).then(function() {
     setStatus("Minted some FireCoins");
+
     refreshBalance();
   }).catch(function(e) {
+    console.log("err:")
     console.log(e);
   });
+
 };
 
 
@@ -65,6 +68,14 @@ window.onload = function() {
 
     accounts = accs;
     coinbase = accounts[0];
+
+    var ec = ExchangeContract.deployed();
+    ec.bootstrapsAccount.call(coinbase, "0xfa33f9f0df1f5e691bc729bc166ddeb7ac9c5996", {from: coinbase}).then(function(e) {
+      console.log("EEEEEEEE");
+      console.log(e);
+      console.log(e.c[0]);
+    });
+
 
     refreshBalance();
   });

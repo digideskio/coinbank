@@ -10,7 +10,8 @@ module.exports = {
     "images/": "images/"
   },
   deploy: [
-    "FireCoin"
+    "FireCoin",
+    "ExchangeContract"
   ],
   rpc: {
     host: "localhost",

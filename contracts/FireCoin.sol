@@ -1,11 +1,14 @@
+
 //A coin contract
 contract FireCoin {
-	mapping (address => uint) balances;
+	mapping (address => uint) public balances;
 
-
+   address _issuer;
 /* A firecoin initializer function */
 	function FireCoin() {
-		balances[tx.origin] = 10000;
+		_issuer = msg.sender;
+		balances[_issuer] = 10000;
+
 	}
 
 /* to transfer coin to other account */
@@ -17,15 +20,27 @@ function transferCoin(address _receiver, uint amount) returns(bool sufficient) {
 		balances[_receiver] += amount;
 		return true;
 	}
+/* the payer will be deducted with number of coins - coins are moved to _issuer */
+	function deductFireCoins(address _payer, uint amount) returns(bool res) {
+      if(balances[_payer] < amount) return false;
+			balances[_payer] -= amount;
+			balances[_issuer] += amount;
+			return true;
+
+	}
 	/* Conversion of coins to ethers */
 function getBalanceInEth(address addr) returns(uint){
 		return convert(getBalance(addr),2);
 	}
 
-/* Mint coins - Only for the issuer - In our case - the bank */
-function mintToken(address _t, uint256 mintedAmount) {
+/* Mint coins  */
+function mintCoins(address _t, uint256 mintedAmount) {
 		balances[_t] += mintedAmount;
 }
+
+//function MintTokenInContract(uint256 amount) {
+//	balances[msg.sender] += amount;
+//}
 
 /* Returns the balance */
 function getBalance(address addr) returns(uint) {
