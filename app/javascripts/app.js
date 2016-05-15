@@ -7,6 +7,11 @@ function setStatus(message) {
   status.innerHTML = message;
 };
 
+function setMstatus(message) {
+  var mstatus = document.getElementById("mStatus");
+  mstatus.innerHTML = message;
+};
+
 function refreshBalance() {
   var meta = FireCoin.deployed();
 
@@ -19,6 +24,20 @@ function refreshBalance() {
   });
 };
 
+function sendmToken() {
+
+var mtoken = mToken.deployed();
+
+var toMember = document.getElementById("toMember").value;
+var mt = 1; //always 1
+ setMstatus("Initiating transaction for onboarding user...(please wait)")
+ mtoken.sendmToken(toMember, mt, {from: coinbase}).then(function() {
+     setMstatus("User onboard complete!");
+ }).catch(function(e) {
+   console.log(e);
+ });
+
+};
 function sendCoin() {
   var meta = FireCoin.deployed();
 
@@ -42,7 +61,7 @@ function mintToken() {
   var meta = FireCoin.deployed();
    console.log(meta)
   var amount = parseInt(document.getElementById("mintamount").value);
-  meta.mintToken(coinbase, amount,{from: coinbase}).then(function() {
+  meta.mintCoins(coinbase, amount,{from: coinbase}).then(function() {
     setStatus("Minted some FireCoins");
 
     refreshBalance();

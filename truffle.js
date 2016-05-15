@@ -11,7 +11,8 @@ module.exports = {
   },
   deploy: [
     "FireCoin",
-    "ExchangeContract"
+    "ExchangeContract",
+    "mToken"
   ],
   rpc: {
     host: "localhost",
